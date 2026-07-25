@@ -44,7 +44,11 @@
       "stock": 44,
       "status": "ativo",
       "personalizable": true,
-      "image": null
+      "image": null,
+      "description": "Comece o dia com o pé direito. Uma frase motivacional estampada em cerâmica de alta qualidade, ideal para o café da manhã.",
+      "material": "Cerâmica",
+      "capacity_ml": 325,
+      "weight_g": 350
     },
     {
       "id": 2,
@@ -58,7 +62,11 @@
       "stock": 30,
       "status": "ativo",
       "personalizable": true,
-      "image": null
+      "image": null,
+      "description": "Para os fãs da saga mais amada da galáxia. Estampa inspirada no universo Star Wars, com acabamento fosco.",
+      "material": "Cerâmica",
+      "capacity_ml": 325,
+      "weight_g": 350
     },
     {
       "id": 3,
@@ -72,7 +80,11 @@
       "stock": 25,
       "status": "ativo",
       "personalizable": true,
-      "image": null
+      "image": null,
+      "description": "Uma declaração de amor em forma de caneca. Perfeita para presentear alguém especial.",
+      "material": "Cerâmica",
+      "capacity_ml": 325,
+      "weight_g": 350
     },
     {
       "id": 4,
@@ -86,7 +98,11 @@
       "stock": 60,
       "status": "ativo",
       "personalizable": true,
-      "image": null
+      "image": null,
+      "description": "Sua caneca, seu nome. Personalize com o texto que quiser e receba uma peça única.",
+      "material": "Cerâmica",
+      "capacity_ml": 325,
+      "weight_g": 350
     },
     {
       "id": 5,
@@ -100,7 +116,11 @@
       "stock": 18,
       "status": "ativo",
       "personalizable": true,
-      "image": null
+      "image": null,
+      "description": "Feita pensando em quem leva o café a sério. Alça reforçada e boca larga para sentir o aroma.",
+      "material": "Cerâmica",
+      "capacity_ml": 325,
+      "weight_g": 350
     },
     {
       "id": 6,
@@ -114,7 +134,11 @@
       "stock": 33,
       "status": "ativo",
       "personalizable": true,
-      "image": null
+      "image": null,
+      "description": "Pra quem concorda que café é vida. Frase divertida com tipografia bold.",
+      "material": "Cerâmica",
+      "capacity_ml": 325,
+      "weight_g": 350
     },
     {
       "id": 7,
@@ -128,7 +152,11 @@
       "stock": 20,
       "status": "ativo",
       "personalizable": true,
-      "image": null
+      "image": null,
+      "description": "O par perfeito para casais. Vem com duas canecas complementares — Ele & Ela.",
+      "material": "Cerâmica",
+      "capacity_ml": 325,
+      "weight_g": 350
     },
     {
       "id": 8,
@@ -142,7 +170,11 @@
       "stock": 15,
       "status": "ativo",
       "personalizable": true,
-      "image": null
+      "image": null,
+      "description": "Uma homenagem à profissão. Ideal para presentear no Dia do Médico ou formatura.",
+      "material": "Cerâmica",
+      "capacity_ml": 325,
+      "weight_g": 350
     },
     {
       "id": 9,
@@ -156,7 +188,11 @@
       "stock": 12,
       "status": "ativo",
       "personalizable": true,
-      "image": null
+      "image": null,
+      "description": "Clima de Natal o ano inteiro. Estampa sazonal para aquecer as festas de fim de ano.",
+      "material": "Cerâmica",
+      "capacity_ml": 325,
+      "weight_g": 350
     },
     {
       "id": 10,
@@ -170,7 +206,11 @@
       "stock": 50,
       "status": "ativo",
       "personalizable": false,
-      "image": null
+      "image": null,
+      "description": "Design limpo e atemporal, para quem prefere o minimalismo em preto e branco.",
+      "material": "Cerâmica",
+      "capacity_ml": 325,
+      "weight_g": 350
     }
   ],
   "nextId": 11
