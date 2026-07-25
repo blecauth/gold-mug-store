@@ -1,71 +1,67 @@
-// ===== api.js =====
+// ===== api.js (versão com feedback visual) =====
 // 🔑 CONFIGURAÇÃO - SUBSTITUA AQUI!
-const JSONBIN_BIN_ID = '6a640028da38895dfe8c5ea7';     // Ex: '5f8a9b3e8e0a3a1b2c3d4e5f'
+const JSONBIN_BIN_ID = '6a640028da38895dfe8c5ea7';     // Ex: '67a1b2c3d4e5f6a7b8c9d0e1'
 const JSONBIN_API_KEY = '$2a$10$k9q9AXcFxytut6gJNxBlme4YjsJXzjG8AcbXRo7QOyZ/srE35/qHG';   // Ex: '$2a$10$abc123...'
 
 const IMGBB_API_KEY = 'bb49178e11dff4322b7a699167535e57';
 
-// ===== TESTE: Verifica se a API está funcionando =====
-console.log('🚀 api.js carregado!');
-console.log('📦 BIN ID:', JSONBIN_BIN_ID);
-console.log('🔑 API KEY:', JSONBIN_API_KEY ? '✅ Configurada' : '❌ FALTANDO!');
+// ===== MOSTRA STATUS NA TELA =====
+function showStatus(msg, isError = false) {
+  const el = document.getElementById('api-status');
+  if (!el) {
+    // Se não existir, cria um
+    const div = document.createElement('div');
+    div.id = 'api-status';
+    div.style.cssText = 'position:fixed;bottom:10px;left:10px;right:10px;padding:10px;background:#333;color:#fff;border-radius:8px;font-size:12px;z-index:999;text-align:center;';
+    document.body.appendChild(div);
+    div.textContent = msg;
+    if (isError) div.style.background = '#c0392b';
+    else div.style.background = '#27ae60';
+  } else {
+    el.textContent = msg;
+    if (isError) el.style.background = '#c0392b';
+    else el.style.background = '#27ae60';
+  }
+  console.log(msg);
+}
+
+// ===== TESTE INICIAL =====
+showStatus('🔄 Conectando ao JSONBin...');
 
 // ===== Leitura do db.json =====
 async function readDB() {
-  console.log('📖 readDB() chamado...');
-  
-  if (!JSONBIN_BIN_ID || JSONBIN_BIN_ID === 'SEU_BIN_ID_AQUI') {
-    console.error('❌ ERRO: Configure o BIN_ID no api.js!');
-    return { products: [], categories: [], nextId: 1 };
-  }
-  
   try {
     const url = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}/latest`;
-    console.log('🌐 Buscando:', url);
+    showStatus('📡 Buscando dados...');
     
     const resp = await fetch(url, {
-      headers: {
-        'X-Master-Key': JSONBIN_API_KEY
-      }
+      headers: { 'X-Master-Key': JSONBIN_API_KEY }
     });
-    
-    console.log('📡 Status da resposta:', resp.status);
     
     if (!resp.ok) {
       const errorText = await resp.text();
-      console.error('❌ Erro HTTP:', resp.status, errorText);
-      throw new Error(`HTTP ${resp.status}: ${errorText}`);
+      showStatus(`❌ Erro ${resp.status}: ${errorText}`, true);
+      throw new Error(`HTTP ${resp.status}`);
     }
     
     const data = await resp.json();
-    console.log('✅ Dados recebidos!', data);
+    showStatus(`✅ ${data.record?.products?.length || 0} produtos carregados!`);
     
-    // O JSONBin retorna { record: {...} }
     if (data.record) {
       return data.record;
-    } else {
-      console.warn('⚠️ Resposta sem "record", usando data direto:', data);
-      return data;
     }
+    return data;
   } catch (error) {
-    console.error('❌ Erro no readDB:', error.message);
-    // Retorna um db vazio em caso de erro
+    showStatus(`❌ Erro: ${error.message}`, true);
     return { products: [], categories: [], nextId: 1 };
   }
 }
 
 // ===== Escrita no db.json =====
 async function writeDB(db) {
-  console.log('✏️ writeDB() chamado...');
-  
-  if (!JSONBIN_BIN_ID || JSONBIN_BIN_ID === 'SEU_BIN_ID_AQUI') {
-    console.error('❌ ERRO: Configure o BIN_ID no api.js!');
-    throw new Error('BIN_ID não configurado');
-  }
-  
   try {
     const url = `https://api.jsonbin.io/v3/b/${JSONBIN_BIN_ID}`;
-    console.log('🌐 Enviando para:', url);
+    showStatus('💾 Salvando dados...');
     
     const resp = await fetch(url, {
       method: 'PUT',
@@ -76,105 +72,84 @@ async function writeDB(db) {
       body: JSON.stringify(db)
     });
     
-    console.log('📡 Status da resposta:', resp.status);
-    
     if (!resp.ok) {
       const errorText = await resp.text();
-      console.error('❌ Erro HTTP:', resp.status, errorText);
-      throw new Error(`HTTP ${resp.status}: ${errorText}`);
+      showStatus(`❌ Erro ao salvar: ${resp.status}`, true);
+      throw new Error(`HTTP ${resp.status}`);
     }
     
-    const data = await resp.json();
-    console.log('✅ Dados salvos!', data);
-    return data;
+    showStatus('✅ Dados salvos com sucesso!');
+    return await resp.json();
   } catch (error) {
-    console.error('❌ Erro no writeDB:', error.message);
+    showStatus(`❌ Erro ao salvar: ${error.message}`, true);
     throw error;
   }
 }
 
-// ===== Upload de imagem para o imgBB =====
+// ===== Upload imagem =====
 async function uploadImage(base64) {
-  console.log('📸 uploadImage() chamado...');
-  
   try {
+    showStatus('📸 Enviando imagem...');
     const form = new FormData();
     form.append('key', IMGBB_API_KEY);
     form.append('image', base64);
     
-    console.log('🌐 Enviando para imgBB...');
     const resp = await fetch('https://api.imgbb.com/1/upload', {
       method: 'POST',
       body: form
     });
     
     const data = await resp.json();
-    console.log('📡 Resposta imgBB:', data);
     
     if (!data.success) {
-      throw new Error('Falha no upload: ' + JSON.stringify(data));
+      showStatus('❌ Falha no upload da imagem', true);
+      throw new Error('Falha no upload');
     }
     
-    console.log('✅ Imagem enviada! URL:', data.data.url);
+    showStatus('✅ Imagem enviada!');
     return data.data.url;
   } catch (error) {
-    console.error('❌ Erro no uploadImage:', error.message);
+    showStatus(`❌ Erro no upload: ${error.message}`, true);
     throw error;
   }
 }
 
-// ===== Funções auxiliares para o admin =====
+// ===== Funções auxiliares =====
 async function getProducts() {
-  console.log('📦 getProducts() chamado');
   const db = await readDB();
   return db.products || [];
 }
 
 async function getCategories() {
-  console.log('🏷️ getCategories() chamado');
   const db = await readDB();
   return db.categories || [];
 }
 
 async function saveProduct(product) {
-  console.log('💾 saveProduct() chamado', product);
   const db = await readDB();
   
   if (product.id) {
-    // Editando produto existente
     const idx = db.products.findIndex(p => p.id === product.id);
     if (idx !== -1) {
       db.products[idx] = { ...db.products[idx], ...product };
-    } else {
-      console.warn('⚠️ Produto não encontrado para editar:', product.id);
     }
   } else {
-    // Novo produto
     product.id = db.nextId || 1;
     db.products.push(product);
     db.nextId = (db.nextId || 1) + 1;
   }
   
   await writeDB(db);
-  console.log('✅ Produto salvo com sucesso!');
   return product;
 }
 
 async function deleteProduct(id) {
-  console.log('🗑️ deleteProduct() chamado para ID:', id);
   const db = await readDB();
-  const originalLength = db.products.length;
   db.products = db.products.filter(p => p.id !== id);
-  
-  if (db.products.length === originalLength) {
-    console.warn('⚠️ Produto não encontrado para remover:', id);
-  }
-  
   await writeDB(db);
-  console.log('✅ Produto removido com sucesso!');
 }
 
-// ===== EXPORTA AS FUNÇÕES GLOBALMENTE =====
+// ===== EXPORTA =====
 window.api = {
   readDB,
   writeDB,
@@ -183,25 +158,19 @@ window.api = {
   getCategories,
   saveProduct,
   deleteProduct,
-  IMGBB_API_KEY,
-  // Versões de teste para diagnóstico
-  _testRead: async () => {
-    console.log('🧪 Teste de leitura:');
-    const data = await readDB();
-    console.log('📊 Dados lidos:', data);
-    return data;
-  },
-  _testWrite: async () => {
-    console.log('🧪 Teste de escrita:');
-    const db = await readDB();
-    db._test = { timestamp: new Date().toISOString() };
-    await writeDB(db);
-    console.log('✅ Escrita teste realizada!');
-    return db;
-  }
+  IMGBB_API_KEY
 };
 
-console.log('✅ api.js carregado com sucesso!');
-console.log('💡 Para testar, abra o console e digite:');
-console.log('   await api._testRead()  ← para testar leitura');
-console.log('   await api._testWrite() ← para testar escrita');
+// ===== TESTE AUTOMÁTICO AO CARREGAR =====
+setTimeout(async () => {
+  try {
+    const db = await readDB();
+    if (db.products && db.products.length > 0) {
+      showStatus(`✅ Pronto! ${db.products.length} produtos carregados`);
+    } else {
+      showStatus('⚠️ Nenhum produto encontrado', true);
+    }
+  } catch (e) {
+    showStatus('❌ Erro ao carregar', true);
+  }
+}, 1000);
