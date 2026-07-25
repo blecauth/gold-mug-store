@@ -74,7 +74,7 @@ section.block { max-width: 1120px; margin: 0 auto; padding: 30px 20px; }
   padding: 14px; cursor: pointer; transition: transform .2s, box-shadow .2s; text-decoration: none; color: inherit; display:block;
 }
 .card:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(43,27,18,.1); }
-.card-thumb { height: 140px; border-radius: 12px; background: var(--cream); display: flex; align-items: center; justify-content: center; margin-bottom: 10px; }
+.card-thumb { aspect-ratio: 1 / 1; width: 100%; border-radius: 12px; background: var(--cream); display: flex; align-items: center; justify-content: center; margin-bottom: 10px; overflow: hidden; }
 .card-cat { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: .05em; color: var(--clay); }
 .card h3 { font-size: 15px; margin: 4px 0 6px; font-weight: 400; }
 .stars { color: var(--clay); font-size: 12px; letter-spacing: 1px; }
