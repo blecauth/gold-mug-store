@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Canecas Criativas — Admin</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <div class="logo" id="admin-logo"></div>
+    <nav class="admin-nav">
+      <a href="#" data-view="overview" class="active">📊 Dashboard</a>
+      <a href="#" data-view="products">🛍️ Produtos</a>
+      <a href="#" data-view="categories">🏷️ Categorias</a>
+    </nav>
+    <div style="margin-top:16px;padding:0 8px;">
+      <button class="btn btn-clay" id="export-btn" style="width:100%;font-size:12px;margin-bottom:6px;">⬇ Exportar db.json</button>
+      <button class="link-btn" id="restore-btn" style="color:var(--cream);opacity:.5;">Descartar alterações locais</button>
+    </div>
+    <a href="index.html" class="admin-back">← Voltar à loja</a>
+  </aside>
+
+  <main class="admin-main">
+    <div id="draft-banner" style="display:none;background:#C1622D22;border:1px solid #C1622D55;border-radius:12px;padding:10px 14px;font-size:12px;margin-bottom:16px;">
+      Você tem alterações não publicadas, salvas só neste navegador. Clique em <strong>Exportar db.json</strong> e substitua o arquivo no repositório do GitHub para publicá-las.
+    </div>
+    <div id="admin-main-content"></div>
+  </main>
+</div>
+
+<!-- Modal de produto (adicionar / editar) -->
+<div class="modal-overlay" id="product-modal">
+  <div class="modal">
+    <h2 id="modal-title">Novo Produto</h2>
+    <form id="product-form">
+      <input type="hidden" id="p-id" />
+      <div class="form-field">
+        <label>Nome do produto</label>
+        <input id="p-name" required />
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Categoria</label>
+          <select id="p-category"></select>
+        </div>
+        <div class="form-field">
+          <label>Cor da caneca</label>
+          <select id="p-color">
+            <option value="white">Branca</option>
+            <option value="black">Preta</option>
+            <option value="blue">Azul</option>
+            <option value="red">Vermelha</option>
+            <option value="green">Verde</option>
+            <option value="yellow">Amarela</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Preço (R$)</label>
+          <input id="p-price" type="number" step="0.01" required />
+        </div>
+        <div class="form-field">
+          <label>Preço promocional (opcional)</label>
+          <input id="p-promo" type="number" step="0.01" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Estoque</label>
+          <input id="p-stock" type="number" />
+        </div>
+        <div class="form-field">
+          <label>Status</label>
+          <select id="p-status">
+            <option value="ativo">Ativo</option>
+            <option value="inativo">Inativo</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label>Avaliação (0-5)</label>
+          <input id="p-rating" type="number" step="0.1" min="0" max="5" />
+        </div>
+        <div class="form-field">
+          <label>Nº de avaliações</label>
+          <input id="p-reviews" type="number" />
+        </div>
+      </div>
+      <div class="checkbox-row">
+        <input type="checkbox" id="p-personalizable" />
+        <label for="p-personalizable">Permitir personalização (frase na caneca)</label>
+      </div>
+      <div class="form-field">
+        <label>Foto do produto</label>
+        <input type="file" id="p-image-file" accept="image/*" />
+        <input type="hidden" id="p-image-url" />
+        <div id="p-image-status" style="font-size:11px;opacity:.6;margin-top:2px;"></div>
+        <img id="p-image-preview" style="display:none;margin-top:8px;max-width:120px;border-radius:10px;" />
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline" id="modal-cancel">Cancelar</button>
+        <button type="submit" class="btn btn-clay">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="common.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>
