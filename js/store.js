@@ -53,7 +53,7 @@ function renderProducts() {
   }
 
   grid.innerHTML = list.map((p) => `
-    <div class="card" onclick="addToCart(${p.id})">
+    <div class="card" onclick="openProductModal(${p.id})">
       <div class="card-thumb">${productThumb(p, 90)}</div>
       <p class="card-cat">${categoryName(allCategories, p.category)}</p>
       <h3>${p.name}</h3>
@@ -70,6 +70,63 @@ function renderProducts() {
   `).join("");
 }
 
+// ---------- Modal de detalhes do produto ----------
+
+let modalQty = 1;
+
+function openProductModal(productId) {
+  const p = allProducts.find((p) => p.id === productId);
+  if (!p) return;
+  modalQty = 1;
+  renderProductModal(p);
+  document.getElementById("product-view-modal").classList.add("open");
+}
+
+function renderProductModal(p) {
+  const body = document.getElementById("product-modal-body");
+  body.innerHTML = `
+    <div style="display:flex;justify-content:center;background:var(--cream);border-radius:16px;padding:20px;margin-bottom:14px;">
+      ${productThumb(p, 160)}
+    </div>
+    <p class="card-cat">${categoryName(allCategories, p.category)}</p>
+    <h2 style="margin:4px 0 6px;">${p.name}</h2>
+    <div class="stars" style="margin-bottom:8px;">${starsHTML(p.rating)} <span style="font-size:11px;opacity:.5;">(${p.reviews} avaliações)</span></div>
+    <p style="font-size:13px;opacity:.75;margin-bottom:10px;">
+      ${p.description}${p.personalizable ? " Esta caneca aceita personalização com sua frase." : ""}
+    </p>
+    <div style="font-size:12px;opacity:.65;display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:14px;">
+      <span>Modelo: ${categoryName(allCategories, p.category)}</span>
+      <span>Capacidade: ${p.capacity_ml}ml</span>
+      <span>Material: ${p.material}</span>
+      <span>Cor: ${p.color}</span>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+      ${p.promo
+        ? `<div><span class="price promo-old">${money(p.price)}</span> <span class="price" style="font-size:20px;color:var(--clay)">${money(p.promo)}</span></div>`
+        : `<span class="price" style="font-size:20px;">${money(p.price)}</span>`}
+      <div style="display:flex;align-items:center;gap:8px;border:1px solid rgba(43,27,18,.15);border-radius:999px;padding:4px 10px;">
+        <button class="link-btn" onclick="changeModalQty(-1)">−</button>
+        <span id="modal-qty" style="font-size:13px;">${modalQty}</span>
+        <button class="link-btn" onclick="changeModalQty(1)">+</button>
+      </div>
+    </div>
+    <button class="btn btn-dark" style="width:100%;" onclick="addToCart(${p.id}, modalQty); closeProductModal();">Adicionar ao Carrinho</button>
+  `;
+}
+
+function changeModalQty(delta) {
+  modalQty = Math.max(1, modalQty + delta);
+  document.getElementById("modal-qty").textContent = modalQty;
+}
+
+function closeProductModal() {
+  document.getElementById("product-view-modal").classList.remove("open");
+}
+document.getElementById("product-modal-close").addEventListener("click", closeProductModal);
+document.getElementById("product-view-modal").addEventListener("click", (e) => {
+  if (e.target.id === "product-view-modal") closeProductModal();
+});
+
 document.getElementById("search-input").addEventListener("input", renderProducts);
 
 // ---------- Carrinho (estado do navegador — sempre foi assim, não muda) ----------
@@ -79,10 +136,10 @@ function saveCart() {
   renderCart();
 }
 
-function addToCart(productId) {
+function addToCart(productId, qty = 1) {
   const existing = cart.find((it) => it.productId === productId);
-  if (existing) existing.qty += 1;
-  else cart.push({ productId, qty: 1 });
+  if (existing) existing.qty += qty;
+  else cart.push({ productId, qty });
   saveCart();
   openCart();
 }
