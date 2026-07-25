@@ -1,8 +1,8 @@
 // ===== api.js =====
 // Cadastre-se em https://jsonbin.io e crie um bin
 // Cole o conteúdo do seu db.json lá
-const JSONBIN_BIN_ID = 'SEU_BIN_ID_AQUI';
-const JSONBIN_API_KEY = 'SUA_API_KEY_AQUI'; // X-Master-Key
+const JSONBIN_BIN_ID = '6a640028da38895dfe8c5ea7';
+const JSONBIN_API_KEY = '$2a$10$yo1tfOZiXOW20SXkS0LESuNvwGCyin1oT3ewnc/DQvY29kZ7IwqsS'; // X-Master-Key
 
 // Chave do imgBB (pode deixar aqui porque é pública mesmo)
 const IMGBB_API_KEY = 'bb49178e11dff4322b7a699167535e57';
