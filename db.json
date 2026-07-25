@@ -1,0 +1,177 @@
+{
+  "categories": [
+    {
+      "id": "motivacionais",
+      "name": "Motivacionais",
+      "swatch": "#D9A441"
+    },
+    {
+      "id": "geek",
+      "name": "Geek",
+      "swatch": "#3B5C7A"
+    },
+    {
+      "id": "romanticas",
+      "name": "Românticas",
+      "swatch": "#A13D2B"
+    },
+    {
+      "id": "profissionais",
+      "name": "Profissionais",
+      "swatch": "#4B6355"
+    },
+    {
+      "id": "cafe",
+      "name": "de Café",
+      "swatch": "#6F4E37"
+    },
+    {
+      "id": "sazonais",
+      "name": "Sazonais",
+      "swatch": "#8A6E4B"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "Caneca \"Bom Dia\" Motivacional",
+      "category": "motivacionais",
+      "price": 29.9,
+      "promo": null,
+      "rating": 4.8,
+      "reviews": 132,
+      "color": "yellow",
+      "stock": 44,
+      "status": "ativo",
+      "personalizable": true,
+      "image": null
+    },
+    {
+      "id": 2,
+      "name": "Caneca Geek - Guerra nas Estrelas",
+      "category": "geek",
+      "price": 34.9,
+      "promo": null,
+      "rating": 4.9,
+      "reviews": 210,
+      "color": "blue",
+      "stock": 30,
+      "status": "ativo",
+      "personalizable": true,
+      "image": null
+    },
+    {
+      "id": 3,
+      "name": "Caneca Romântica - Eu Te Amo",
+      "category": "romanticas",
+      "price": 32.9,
+      "promo": 27.9,
+      "rating": 4.7,
+      "reviews": 98,
+      "color": "red",
+      "stock": 25,
+      "status": "ativo",
+      "personalizable": true,
+      "image": null
+    },
+    {
+      "id": 4,
+      "name": "Caneca Personalizada - Seu Nome",
+      "category": "motivacionais",
+      "price": 39.9,
+      "promo": null,
+      "rating": 4.9,
+      "reviews": 301,
+      "color": "white",
+      "stock": 60,
+      "status": "ativo",
+      "personalizable": true,
+      "image": null
+    },
+    {
+      "id": 5,
+      "name": "Caneca de Café - Barista",
+      "category": "cafe",
+      "price": 27.9,
+      "promo": null,
+      "rating": 4.6,
+      "reviews": 87,
+      "color": "black",
+      "stock": 18,
+      "status": "ativo",
+      "personalizable": true,
+      "image": null
+    },
+    {
+      "id": 6,
+      "name": "Caneca Engraçada - Café é Vida",
+      "category": "cafe",
+      "price": 31.9,
+      "promo": null,
+      "rating": 4.8,
+      "reviews": 154,
+      "color": "yellow",
+      "stock": 33,
+      "status": "ativo",
+      "personalizable": true,
+      "image": null
+    },
+    {
+      "id": 7,
+      "name": "Caneca de Casal - Ele & Ela",
+      "category": "romanticas",
+      "price": 59.9,
+      "promo": 49.9,
+      "rating": 4.9,
+      "reviews": 176,
+      "color": "white",
+      "stock": 20,
+      "status": "ativo",
+      "personalizable": true,
+      "image": null
+    },
+    {
+      "id": 8,
+      "name": "Caneca Profissão - Médica",
+      "category": "profissionais",
+      "price": 34.9,
+      "promo": null,
+      "rating": 4.7,
+      "reviews": 62,
+      "color": "green",
+      "stock": 15,
+      "status": "ativo",
+      "personalizable": true,
+      "image": null
+    },
+    {
+      "id": 9,
+      "name": "Caneca Natalina",
+      "category": "sazonais",
+      "price": 29.9,
+      "promo": null,
+      "rating": 4.5,
+      "reviews": 44,
+      "color": "red",
+      "stock": 12,
+      "status": "ativo",
+      "personalizable": true,
+      "image": null
+    },
+    {
+      "id": 10,
+      "name": "Caneca Minimalista - Preto",
+      "category": "motivacionais",
+      "price": 24.9,
+      "promo": null,
+      "rating": 4.6,
+      "reviews": 120,
+      "color": "black",
+      "stock": 50,
+      "status": "ativo",
+      "personalizable": false,
+      "image": null
+    }
+  ],
+  "nextId": 11
+}
