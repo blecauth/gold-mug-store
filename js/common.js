@@ -27,11 +27,18 @@ function mugSVG(colorId, size = 100) {
     </svg>`;
 }
 
-// Miniatura do produto: usa a foto enviada via imgbb quando existir,
+// Miniatura do produto: usa a foto (imgbb ou exemplo) quando existir,
 // senão cai no desenho da caneca (mugSVG) como antes.
-function productThumb(p, size = 100) {
+// fill=true -> a imagem preenche 100% do container (para cards e modal,
+//              que já têm um tamanho/altura definidos via CSS).
+// fill=false -> a imagem usa o tamanho fixo em pixels informado
+//              (para miniaturas pequenas: carrinho, tabela do admin).
+function productThumb(p, size = 100, fill = false) {
   if (p.image) {
-    return `<img src="${p.image}" alt="${p.name}" style="width:${size}px;height:${size}px;object-fit:cover;border-radius:10px;" />`;
+    const style = fill
+      ? "width:100%;height:100%;object-fit:cover;border-radius:12px;display:block;"
+      : `width:${size}px;height:${size}px;object-fit:cover;border-radius:10px;display:block;`;
+    return `<img src="${p.image}" alt="${p.name}" style="${style}" />`;
   }
   return mugSVG(p.color, size);
 }

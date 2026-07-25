@@ -54,7 +54,7 @@ function renderProducts() {
 
   grid.innerHTML = list.map((p) => `
     <div class="card" onclick="openProductModal(${p.id})">
-      <div class="card-thumb">${productThumb(p, 90)}</div>
+      <div class="card-thumb">${productThumb(p, 130, true)}</div>
       <p class="card-cat">${categoryName(allCategories, p.category)}</p>
       <h3>${p.name}</h3>
       <div class="stars">${starsHTML(p.rating)}</div>
@@ -85,8 +85,8 @@ function openProductModal(productId) {
 function renderProductModal(p) {
   const body = document.getElementById("product-modal-body");
   body.innerHTML = `
-    <div style="display:flex;justify-content:center;background:var(--cream);border-radius:16px;padding:20px;margin-bottom:14px;">
-      ${productThumb(p, 160)}
+    <div style="display:flex;justify-content:center;background:var(--cream);border-radius:16px;padding:${p.image ? "0" : "20px"};margin-bottom:14px;height:240px;overflow:hidden;">
+      ${productThumb(p, 200, true)}
     </div>
     <p class="card-cat">${categoryName(allCategories, p.category)}</p>
     <h2 style="margin:4px 0 6px;">${p.name}</h2>
