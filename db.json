@@ -211,7 +211,21 @@
       "material": "Cerâmica",
       "capacity_ml": 325,
       "weight_g": 350
+    },
+    {
+      "id": 11,
+      "name": "Caneca teste",
+      "category": "geek",
+      "color": "green",
+      "price": 29.5,
+      "promo": null,
+      "stock": 3,
+      "status": "ativo",
+      "rating": 5,
+      "reviews": 200,
+      "personalizable": false,
+      "image": "https://i.ibb.co/DDmjGXRx/1000155642.jpg"
     }
   ],
-  "nextId": 11
+  "nextId": 12
 }
