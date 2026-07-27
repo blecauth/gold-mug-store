@@ -196,11 +196,9 @@ function renderCart() {
     `;
   }).join("");
 
-  const frete = 12.9;
   summaryEl.innerHTML = `
-    <div class="row"><span>Subtotal</span><span>${money(subtotal)}</span></div>
-    <div class="row"><span>Frete (simulado)</span><span>${money(frete)}</span></div>
-    <div class="row total"><span>Total</span><span>${money(subtotal + frete)}</span></div>
+    <div class="row total"><span>Total</span><span>${money(subtotal)}</span></div>
+    <p style="font-size:11px;opacity:.5;margin:2px 0 10px;">O frete será combinado após a compra.</p>
     <button class="btn btn-clay" style="width:100%" onclick="alert('Checkout simulado — pedido confirmado! (demo)'); cart = []; saveCart(); closeCart();">Finalizar Compra</button>
   `;
 }
