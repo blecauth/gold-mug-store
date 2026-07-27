@@ -67,7 +67,7 @@ function render() {
   const main = document.getElementById("admin-main-content");
   if (currentView === "overview") main.innerHTML = renderOverview();
   if (currentView === "products") { main.innerHTML = renderProductsView(); bindProductsView(); }
-  if (currentView === "categories") main.innerHTML = renderCategoriesView();
+  if (currentView === "categories") { main.innerHTML = renderCategoriesView(); bindCategoriesView(); }
 }
 
 // ---------- Visão geral ----------
@@ -259,22 +259,102 @@ function removeProduct(id) {
   render();
 }
 
-// ---------- Categorias (somente leitura por enquanto) ----------
+// ---------- Categorias (CRUD completo) ----------
+
+function slugify(name) {
+  return name
+    .normalize("NFD").replace(/[\u0300-\u036f]/g, "") // remove acentos
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "") || "categoria";
+}
 
 function renderCategoriesView() {
   return `
-    <h1>Categorias</h1>
+    <div class="top-row">
+      <h1 style="margin:0">Categorias</h1>
+      <button class="btn btn-clay" id="new-category-btn">+ Nova Categoria</button>
+    </div>
     <div class="admin-table-wrap">
       <table>
-        <thead><tr><th>Nome</th><th>Produtos</th></tr></thead>
+        <thead><tr><th>Cor</th><th>Nome</th><th>Produtos</th><th>Ações</th></tr></thead>
         <tbody>
           ${db.categories.map((c) => `
-            <tr><td>${c.name}</td><td>${db.products.filter((p) => p.category === c.id).length}</td></tr>
+            <tr>
+              <td><span style="display:inline-block;width:18px;height:18px;border-radius:50%;background:${c.swatch};"></span></td>
+              <td>${c.name}</td>
+              <td>${db.products.filter((p) => p.category === c.id).length}</td>
+              <td>
+                <button class="link-btn" onclick="openCategoryModal('${c.id}')">Editar</button>
+                <button class="link-btn" onclick="removeCategory('${c.id}')">Remover</button>
+              </td>
+            </tr>
           `).join("")}
         </tbody>
       </table>
     </div>
   `;
+}
+
+function bindCategoriesView() {
+  document.getElementById("new-category-btn").addEventListener("click", () => openCategoryModal());
+}
+
+const categoryModal = document.getElementById("category-modal");
+const categoryForm = document.getElementById("category-form");
+
+function openCategoryModal(id) {
+  const editing = id != null;
+  const c = editing ? db.categories.find((c) => c.id === id) : null;
+  document.getElementById("category-modal-title").textContent = editing ? "Editar Categoria" : "Nova Categoria";
+  document.getElementById("c-id").value = editing ? c.id : "";
+  document.getElementById("c-name").value = editing ? c.name : "";
+  document.getElementById("c-swatch").value = editing ? c.swatch : "#C1622D";
+  categoryModal.classList.add("open");
+}
+
+function closeCategoryModal() {
+  categoryModal.classList.remove("open");
+}
+document.getElementById("category-modal-cancel").addEventListener("click", closeCategoryModal);
+
+categoryForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+  const id = document.getElementById("c-id").value;
+  const name = document.getElementById("c-name").value.trim();
+  const swatch = document.getElementById("c-swatch").value;
+
+  if (id) {
+    const cat = db.categories.find((c) => c.id === id);
+    cat.name = name;
+    cat.swatch = swatch;
+  } else {
+    let newId = slugify(name);
+    // evita duas categorias com o mesmo id
+    let suffix = 2;
+    while (db.categories.some((c) => c.id === newId)) {
+      newId = `${slugify(name)}-${suffix}`;
+      suffix += 1;
+    }
+    db.categories.push({ id: newId, name, swatch });
+  }
+
+  persistDraft();
+  closeCategoryModal();
+  render();
+});
+
+function removeCategory(id) {
+  const linked = db.products.filter((p) => p.category === id).length;
+  if (linked > 0) {
+    alert(`Essa categoria tem ${linked} produto(s) vinculado(s). Mude a categoria desses produtos (ou remova-os) antes de excluir a categoria.`);
+    return;
+  }
+  if (!confirm("Remover esta categoria do rascunho? Lembre de exportar o db.json depois para publicar.")) return;
+  db.categories = db.categories.filter((c) => c.id !== id);
+  persistDraft();
+  render();
 }
 
 // ---------- Início ----------
