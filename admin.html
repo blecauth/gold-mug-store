@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Canecas Criativas — Admin</title>
-<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
@@ -110,7 +110,29 @@
   </div>
 </div>
 
-<script src="js/common.js"></script>
-<script src="js/admin.js"></script>
+<!-- Modal de categoria (adicionar / editar) -->
+<div class="modal-overlay" id="category-modal">
+  <div class="modal">
+    <h2 id="category-modal-title">Nova Categoria</h2>
+    <form id="category-form">
+      <input type="hidden" id="c-id" />
+      <div class="form-field">
+        <label>Nome da categoria</label>
+        <input id="c-name" required />
+      </div>
+      <div class="form-field">
+        <label>Cor (usada nos ícones da loja)</label>
+        <input id="c-swatch" type="color" value="#C1622D" style="width:60px;height:32px;padding:2px;" />
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline" id="category-modal-cancel">Cancelar</button>
+        <button type="submit" class="btn btn-clay">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="common.js"></script>
+<script src="admin.js"></script>
 </body>
 </html>
